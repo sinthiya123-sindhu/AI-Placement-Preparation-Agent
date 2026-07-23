@@ -1,132 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SilentBridge | AI Sign Language Communication</title>
-<link rel="stylesheet" href="style.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>CareerPilot AI</title>
+
+    <link rel="stylesheet"
+        href="style.css">
+
 </head>
+
 <body>
 
-<nav>
-  <div class="logo">🤟 SilentBridge</div>
-  <div class="nav-links">
-    <a href="#home">Home</a>
-    <a href="#how-it-works">How It Works</a>
-    <a href="#communication">Communication</a>
-  </div>
-  <button class="nav-btn" onclick="startCommunication()">Start Now</button>
-</nav>
+    <!-- SIDEBAR -->
 
-<section id="home" class="hero">
-  <div class="hero-text">
-    <span class="tag">🤖 AI-POWERED COMMUNICATION</span>
-    <h1>Breaking Barriers. <span>Building Bridges.</span></h1>
-    <p>SilentBridge helps people communicate through sign language, text, and voice using intelligent AI technology.</p>
-    <div class="hero-buttons">
-      <button class="primary-btn" onclick="startCommunication()">Start Communication →</button>
-      <button class="secondary-btn" onclick="scrollToSection('how-it-works')">Learn More</button>
-    </div>
-  </div>
+    <aside class="sidebar">
 
-  <div class="hero-card">
-    <div class="card-header">
-      <span>● LIVE AI TRANSLATION</span>
-      <span class="status">● ONLINE</span>
-    </div>
-    <div class="hero-camera-box">
-      <video id="heroVideo" autoplay playsinline muted></video>
-      <div id="heroCameraMessage">
-        <div class="camera-icon">📷</div>
-        <p>Camera Preview</p>
-      </div>
-      <button onclick="startHeroCamera()">Start Camera</button>
-    </div>
-    <div class="translation-result">
-      <span>AI DETECTED</span>
-      <h2 id="detectedText">Ready to communicate 🤟</h2>
-    </div>
-  </div>
-</section>
+        <div class="brand">
 
-<section id="how-it-works" class="section">
-  <div class="section-title">
-    <span class="tag">HOW IT WORKS</span>
-    <h2>One Bridge. Two Worlds.</h2>
-    <p>SilentBridge creates a communication bridge between sign language and spoken language.</p>
-  </div>
+            <div class="brand-icon">
+                🤖
+            </div>
 
-  <div class="steps">
-    <div class="step-card">
-      <div class="step-icon">🤟</div>
-      <h3>Sign</h3>
-      <p>A person communicates using hand gestures.</p>
-    </div>
-    <div class="arrow">→</div>
-    <div class="step-card">
-      <div class="step-icon">🤖</div>
-      <h3>AI Understands</h3>
-      <p>AI detects hand landmarks and analyzes the gesture.</p>
-    </div>
-    <div class="arrow">→</div>
-    <div class="step-card">
-      <div class="step-icon">💬</div>
-      <h3>Communicate</h3>
-      <p>The detected message becomes text and voice.</p>
-    </div>
-  </div>
-</section>
+            <div>
 
-<section id="communication" class="communication-section">
-  <div class="section-title">
-    <span class="tag">AI COMMUNICATION AGENT</span>
-    <h2>Try the Communication Demo</h2>
-    <p>Show your hand to the camera and let the AI detect your gesture.</p>
-  </div>
+                <h2>CareerPilot AI</h2>
 
-  <div class="communication-box">
-    <div class="mode-buttons">
-      <button class="active" onclick="changeMode('sign', this)">🤟 Sign → Text</button>
-      <button onclick="changeMode('voice', this)">🎤 Voice → Text</button>
-    </div>
+                <p>Placement Agent</p>
 
-    <div class="demo-area">
-      <div class="camera-demo">
-        <div class="camera-placeholder">
-          <video id="cameraVideo" autoplay playsinline muted></video>
-          <canvas id="handCanvas"></canvas>
-          <div id="cameraMessage">
-            <span>📷</span>
-            <p>Camera is ready</p>
-          </div>
+            </div>
+
         </div>
 
-        <div class="camera-buttons">
-          <button class="primary-btn" onclick="startCamera()">🎥 Start Camera</button>
-          <button class="stop-btn" onclick="stopCamera()">⏹ Stop Camera</button>
+
+        <p class="menu-title">
+            MAIN MENU
+        </p>
+
+
+        <button class="menu-item active"
+            onclick="showSection('dashboard', this)">
+
+            📊
+            <span>Dashboard</span>
+
+        </button>
+
+
+        <button class="menu-item"
+            onclick="openPractice('aptitude')">
+
+            🧠
+            <span>Aptitude</span>
+
+        </button>
+
+
+        <button class="menu-item"
+            onclick="openPractice('technical')">
+
+            💻
+            <span>Technical Prep</span>
+
+        </button>
+
+
+        <button class="menu-item"
+            onclick="openPractice('coding')">
+
+            ⌨️
+            <span>Coding Practice</span>
+
+        </button>
+
+
+        <button class="menu-item"
+            onclick="openPractice('interview')">
+
+            🎤
+            <span>Mock Interview</span>
+
+        </button>
+
+
+        <p class="menu-title">
+            TRACKING
+        </p>
+
+
+        <button class="menu-item"
+            onclick="showProgress()">
+
+            📈
+            <span>My Progress</span>
+
+        </button>
+
+
+        <button class="menu-item"
+            onclick="showProfile()">
+
+            👤
+            <span>My Profile</span>
+
+        </button>
+
+
+        <div class="agent-status">
+
+            <div class="online">
+                ● AI AGENT ONLINE
+            </div>
+
+            <p>
+                Your AI agent is monitoring
+                your preparation progress.
+            </p>
+
         </div>
 
-        <p id="cameraStatus">Camera is not started</p>
-      </div>
+    </aside>
 
-      <div class="result-area">
-        <span class="result-label">AI TRANSLATION RESULT</span>
-        <h2 id="resultText">Show your hand to begin 🤟</h2>
-        <button class="speak-btn" onclick="speakText()">🔊 Speak Message</button>
 
-        <div class="quick-signs">
-          <button onclick="detectSign('Hello 👋')">👋 Hello</button>
-          <button onclick="detectSign('Thank You 🙏')">🙏 Thank You</button>
-          <button onclick="detectSign('Yes 👍')">👍 Yes</button>
-          <button onclick="detectSign('No 👎')">👎 No</button>
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>
+                    Good morning, Sindhu 👋
+                </h1>
+
+                <p>
+                    Your AI preparation agent has a plan for you today.
+                </p>
+
+            </div>
+
+
+            <div class="profile">
+
+                <div class="avatar">
+                    S
+                </div>
+
+                <div>
+
+                    <strong>
+                        Sindhu
+                    </strong>
+
+                    <small>
+                        Final Year Student
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- AI AGENT BANNER -->
+
+        <section class="agent-banner">
+
+            <div>
+
+                <span class="agent-label">
+                    ✨ YOUR PERSONAL AI AGENT
+                </span>
+
+                <h2>
+                    I analyzed your profile.
+                    Here's your next move.
+                </h2>
+
+                <p>
+                    Based on your target role as a Python Developer,
+                    your strongest areas are Python and Web Basics.
+                    I detected a skill gap in SQL and Data Structures.
+                </p>
+
+            </div>
+
+
+            <button class="white-button"
+                onclick="openAgent()">
+
+                Ask My AI Agent →
+
+            </button>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section class="stats">
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        Placement Readiness
+                    </span>
+
+                    <b>
+                        🎯
+                    </b>
+
+                </div>
+
+                <h2>
+                    68%
+                </h2>
+
+                <p>
+                    +8% from last week
+                </p>
+
+                <div class="progress">
+
+                    <div style="width:68%"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        Learning Streak
+                    </span>
+
+                    <b>
+                        🔥
+                    </b>
+
+                </div>
+
+                <h2>
+                    7 Days
+                </h2>
+
+                <p>
+                    Keep the momentum going
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        Questions Solved
+                    </span>
+
+                    <b>
+                        ✅
+                    </b>
+
+                </div>
+
+                <h2>
+                    124
+                </h2>
+
+                <p>
+                    18 this week
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-heading">
+
+                    <span>
+                        Target Role
+                    </span>
+
+                    <b>
+                        💼
+                    </b>
+
+                </div>
+
+                <h2 class="role">
+                    Python Developer
+                </h2>
+
+                <p>
+                    Your chosen career path
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MAIN GRID -->
+
+        <section class="content-grid">
+
+
+            <!-- LEFT -->
+
+            <div>
+
+
+                <!-- SKILL GAP -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <h2>
+                            🧠 AI Skill Gap Analysis
+                        </h2>
+
+                        <button onclick="openAgent()">
+                            View Analysis
+                        </button>
+
+                    </div>
+
+
+                    <div class="skill">
+
+                        <div class="skill-name">
+
+                            <span>
+                                Python
+                            </span>
+
+                            <b>
+                                82%
+                            </b>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div style="width:82%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill">
+
+                        <div class="skill-name">
+
+                            <span>
+                                HTML & CSS
+                            </span>
+
+                            <b>
+                                78%
+                            </b>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div style="width:78%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill">
+
+                        <div class="skill-name">
+
+                            <span>
+                                SQL
+                            </span>
+
+                            <b>
+                                55%
+                            </b>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div style="width:55%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill">
+
+                        <div class="skill-name">
+
+                            <span>
+                                Data Structures
+                            </span>
+
+                            <b>
+                                42%
+                            </b>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div style="width:42%"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="skill">
+
+                        <div class="skill-name">
+
+                            <span>
+                                Interview Skills
+                            </span>
+
+                            <b>
+                                60%
+                            </b>
+
+                        </div>
+
+                        <div class="skill-bar">
+
+                            <div style="width:60%"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ROADMAP -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <h2>
+                            🗺️ AI-Generated Roadmap
+                        </h2>
+
+                        <span>
+                            4 Weeks
+                        </span>
+
+                    </div>
+
+
+                    <div class="roadmap-item">
+
+                        <div class="number">
+                            1
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Strengthen SQL Fundamentals
+                            </h3>
+
+                            <p>
+                                Practice SELECT, JOIN,
+                                GROUP BY and subqueries.
+                            </p>
+
+                        </div>
+
+                        <small class="active-status">
+                            Active
+                        </small>
+
+                    </div>
+
+
+                    <div class="roadmap-item">
+
+                        <div class="number">
+                            2
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Master Data Structures
+                            </h3>
+
+                            <p>
+                                Focus on arrays, strings,
+                                stacks and queues.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="roadmap-item">
+
+                        <div class="number">
+                            3
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Complete Mock Interviews
+                            </h3>
+
+                            <p>
+                                Practice technical and HR questions
+                                with AI feedback.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div>
+
+
+                <!-- DAILY MISSION -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <h2>
+                            🎯 Today's Mission
+                        </h2>
+
+                        <span>
+                            3 Tasks
+                        </span>
+
+                    </div>
+
+
+                    <div class="mission">
+
+                        <h3>
+                            SQL Challenge
+                        </h3>
+
+                        <p>
+                            Solve 5 SQL questions
+                            based on your skill gap.
+                        </p>
+
+                        <button onclick="openPractice('technical')">
+                            Start Challenge
+                        </button>
+
+                    </div>
+
+
+                    <div class="mission">
+
+                        <h3>
+                            Python Coding
+                        </h3>
+
+                        <p>
+                            Solve one beginner coding problem.
+                        </p>
+
+                        <button onclick="openPractice('coding')">
+                            Start Challenge
+                        </button>
+
+                    </div>
+
+
+                    <div class="mission">
+
+                        <h3>
+                            HR Practice
+                        </h3>
+
+                        <p>
+                            Practice: Tell me about yourself.
+                        </p>
+
+                        <button onclick="openPractice('interview')">
+                            Start Practice
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI INSIGHT -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <h2>
+                            💡 AI Insight
+                        </h2>
+
+                    </div>
+
+                    <p class="insight">
+
+                        Your Python basics are strong,
+                        but SQL is currently affecting your
+                        placement readiness. Focus on SQL
+                        for the next 3 days.
+
+                    </p>
+
+
+                    <button class="purple-button"
+                        onclick="openAgent()">
+
+                        Ask Why →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRACTICE CENTER -->
+
+        <section class="card practice-center">
+
+            <div class="card-title">
+
+                <h2>
+                    🚀 Practice Center
+                </h2>
+
+                <span>
+                    Explore All
+                </span>
+
+            </div>
+
+
+            <div class="practice-grid">
+
+
+                <div class="practice-card">
+
+                    <div class="practice-icon">
+                        🧮
+                    </div>
+
+                    <h3>
+                        Aptitude Practice
+                    </h3>
+
+                    <p>
+                        Improve quantitative,
+                        logical and verbal reasoning.
+                    </p>
+
+                    <button onclick="openPractice('aptitude')">
+                        Practice Now →
+                    </button>
+
+                </div>
+
+
+                <div class="practice-card">
+
+                    <div class="practice-icon">
+                        💻
+                    </div>
+
+                    <h3>
+                        Technical Questions
+                    </h3>
+
+                    <p>
+                        Prepare Python, SQL and
+                        core technical questions.
+                    </p>
+
+                    <button onclick="openPractice('technical')">
+                        Practice Now →
+                    </button>
+
+                </div>
+
+
+                <div class="practice-card">
+
+                    <div class="practice-icon">
+                        🎤
+                    </div>
+
+                    <h3>
+                        AI Mock Interview
+                    </h3>
+
+                    <p>
+                        Practice real interview questions
+                        with instant feedback.
+                    </p>
+
+                    <button onclick="openPractice('interview')">
+                        Start Interview →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MODAL -->
+
+    <div class="modal"
+        id="modal">
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <h2 id="modal-title">
+                    AI Practice
+                </h2>
+
+                <button onclick="closeModal()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="modal-content">
+
+            </div>
+
         </div>
-      </div>
+
     </div>
-  </div>
-</section>
 
-<footer>
-  <h2>🤟 SilentBridge</h2>
-  <p>Technology that connects every voice.</p>
-  <p class="copyright">© 2026 SilentBridge. Built with AI for a more inclusive world.</p>
-    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+  </html>
