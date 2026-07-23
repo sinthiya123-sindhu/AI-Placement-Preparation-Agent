@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SilentBridge - AI Sign Language Communication</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🤟 SilentBridge</div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#communication">Communication</a>
+        </div>
+
+        <button class="nav-btn" onclick="startCommunication()">
+            Start Now
+        </button>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+
+        <div class="hero-text">
+            <span class="tag">🤖 AI-POWERED COMMUNICATION</span>
+
+            <h1>
+                Breaking Barriers.
+                <span>Building Bridges.</span>
+            </h1>
+
+            <p>
+                SilentBridge helps people communicate through
+                sign language, text, and voice using intelligent AI technology.
+            </p>
+
+            <div class="hero-buttons">
+                <button class="primary-btn" onclick="startCommunication()">
+                    Start Communication →
+                </button>
+
+                <button class="secondary-btn" onclick="scrollToSection('how-it-works')">
+                    Learn More
+                </button>
+            </div>
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="card-header">
+                <span>● LIVE AI TRANSLATION</span>
+                <span class="status">● ONLINE</span>
+            </div>
+
+            <div class="camera-box">
+                <div class="camera-icon">📷</div>
+
+                <p>Camera Preview</p>
+
+                <button onclick="startCamera()">
+                    Start Camera
+                </button>
+            </div>
+
+            <div class="translation-result">
+                <span>AI DETECTED</span>
+                <h2 id="detectedText">Ready to communicate 🤟</h2>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section">
+
+        <div class="section-title">
+            <span class="tag">HOW IT WORKS</span>
+
+            <h2>One Bridge. Two Worlds.</h2>
+
+            <p>
+                SilentBridge creates a two-way communication bridge
+                between sign language and spoken language.
+            </p>
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step-card">
+                <div class="step-icon">🤟</div>
+                <h3>Sign</h3>
+                <p>
+                    A person communicates using sign language.
+                </p>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step-card">
+                <div class="step-icon">🤖</div>
+                <h3>AI Understands</h3>
+                <p>
+                    AI analyzes and understands the communication.
+                </p>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="step-card">
+                <div class="step-icon">💬</div>
+                <h3>Communicate</h3>
+                <p>
+                    The message becomes text or voice.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Communication Section -->
+    <section id="communication" class="communication-section">
+
+        <div class="section-title">
+            <span class="tag">AI COMMUNICATION AGENT</span>
+
+            <h2>Try the Communication Demo</h2>
+        </div>
+
+
+        <div class="communication-box">
+
+            <div class="mode-buttons">
+
+                <button class="active" onclick="changeMode('sign')">
+                    🤟 Sign → Text
+                </button>
+
+                <button onclick="changeMode('voice')">
+                    🎤 Voice → Text
+                </button>
+
+            </div>
+
+
+            <div class="demo-area">
+
+                <div class="camera-demo">
+
+                    <div class="camera-placeholder">
+                        <span>📷</span>
+                        <p id="cameraStatus">
+                            Camera is ready
+                        </p>
+                    </div>
+
+                    <button class="primary-btn" onclick="startCamera()">
+                        Start Camera
+                    </button>
+
+                </div>
+
+
+                <div class="result-area">
+
+                    <span class="result-label">
+                        AI TRANSLATION RESULT
+                    </span>
+
+                    <h2 id="resultText">
+                        Show a sign to begin
+                    </h2>
+
+                    <button class="speak-btn" onclick="speakText()">
+                        🔊 Speak Message
+                    </button>
+
+                    <div class="quick-signs">
+
+                        <button onclick="detectSign('Hello 👋')">
+                            👋 Hello
+                        </button>
+
+                        <button onclick="detectSign('Thank You 🙏')">
+                            🙏 Thank You
+                        </button>
+
+                        <button onclick="detectSign('Yes 👍')">
+                            👍 Yes
+                        </button>
+
+                        <button onclick="detectSign('No 👎')">
+                            👎 No
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <h2>🤟 SilentBridge</h2>
+
+        <p>
+            Technology that connects every voice.
+        </p>
+
+        <p class="copyright">
+            © 2026 SilentBridge. Built with AI for a more inclusive world.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
