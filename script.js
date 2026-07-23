@@ -2,1113 +2,272 @@
 // SILENTBRIDGE AI SIGN LANGUAGE DEMO
 // ==========================================
 
-
-// ==========================================
-// VARIABLES
-// ==========================================
-
-
 let cameraStream = null;
-
 let handLandmarker = null;
-
 let lastVideoTime = -1;
-
 let currentMessage = "";
-
 let detecting = false;
 
-
-// ==========================================
-// START COMMUNICATION
-// ==========================================
-
-
 function startCommunication() {
-
-
-    document
-
-        .getElementById("communication")
-
-        .scrollIntoView({
-
-            behavior: "smooth"
-
-        });
-
-
+    document.getElementById("communication").scrollIntoView({ behavior: "smooth" });
 }
-
 
 // ==========================================
 // START CAMERA
 // ==========================================
 
-
 async function startCamera() {
-
-
-    const video =
-
-        document.getElementById(
-
-            "cameraVideo"
-
-        );
-
-
-    const message =
-
-        document.getElementById(
-
-            "cameraMessage"
-
-        );
-
-
-    const status =
-
-        document.getElementById(
-
-            "cameraStatus"
-
-        );
-
+    const video = document.getElementById("cameraVideo");
+    const message = document.getElementById("cameraMessage");
+    const status = document.getElementById("cameraStatus");
 
     try {
-
-
-        if (
-
-            !navigator.mediaDevices ||
-
-            !navigator.mediaDevices.getUserMedia
-
-        ) {
-
-
-            alert(
-
-                "Camera is not supported by this browser."
-
-            );
-
-
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            status.innerText = "Camera not supported by this browser ❌";
             return;
-
         }
 
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: false
+        });
 
-        cameraStream =
-
-            await navigator.mediaDevices
-
-                .getUserMedia({
-
-                    video: {
-
-                        facingMode: "user"
-
-                    },
-
-                    audio: false
-
-                });
-
-
-        video.srcObject =
-
-            cameraStream;
-
-
-        video.style.display =
-
-            "block";
-
-
-        message.style.display =
-
-            "none";
-
-
-        status.innerText =
-
-            "Camera active 🎥 Starting AI...";
-
+        video.srcObject = cameraStream;
+        video.style.display = "block";
+        message.style.display = "none";
+        status.innerText = "Camera active 🎥 Loading AI model...";
 
         await video.play();
-
-
         await createHandLandmarker();
 
-
+        status.innerText = "AI ready — show your hand 🤟";
         detecting = true;
-
-
         detectHands();
 
+    } catch (error) {
+        console.error("Camera/AI Error:", error);
 
+        if (error.name === "NotAllowedError") {
+            status.innerText = "Camera permission denied ❌";
+        } else if (error.name === "NotFoundError") {
+            status.innerText = "No camera found on this device ❌";
+        } else {
+            status.innerText = "AI failed to load: " + error.message;
+        }
     }
-
-
-    catch (error) {
-
-
-        console.error(
-
-            "Camera Error:",
-
-            error
-
-        );
-
-
-        status.innerText =
-
-            "Camera access failed ❌";
-
-
-        alert(
-
-            "Please allow camera permission and try again."
-
-        );
-
-
-    }
-
-
 }
-
 
 // ==========================================
 // CREATE MEDIAPIPE HAND LANDMARKER
 // ==========================================
 
-
 async function createHandLandmarker() {
+    if (handLandmarker) return;
 
-
-    if (handLandmarker) {
-
-
-        return;
-
+    if (!window.FilesetResolver || !window.HandLandmarker) {
+        throw new Error("MediaPipe module script hasn't loaded yet — check your internet connection.");
     }
 
+    const vision = await window.FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
+    );
 
-    if (
-
-        !window.FilesetResolver ||
-
-        !window.HandLandmarker
-
-    ) {
-
-
-        throw new Error(
-
-            "MediaPipe has not loaded yet."
-
-        );
-
-    }
-
-
-    const vision =
-
-        await window.FilesetResolver
-
-            .forVisionTasks(
-
-                "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm"
-
-            );
-
-
-    handLandmarker =
-
-        await window.HandLandmarker
-
-            .createFromOptions(
-
-                vision,
-
-                {
-
-
-                    baseOptions: {
-
-
-                        modelAssetPath:
-
-                            "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
-
-
-                    },
-
-
-                    runningMode:
-
-                        "VIDEO",
-
-
-                    numHands:
-
-                        1,
-
-
-                    minHandDetectionConfidence:
-
-                        0.5,
-
-
-                    minHandPresenceConfidence:
-
-                        0.5,
-
-
-                    minTrackingConfidence:
-
-                        0.5
-
-
-                }
-
-            );
-
-
+    handLandmarker = await window.HandLandmarker.createFromOptions(vision, {
+        baseOptions: {
+            modelAssetPath:
+                "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task"
+        },
+        runningMode: "VIDEO",
+        numHands: 1,
+        minHandDetectionConfidence: 0.5,
+        minHandPresenceConfidence: 0.5,
+        minTrackingConfidence: 0.5
+    });
 }
-
 
 // ==========================================
 // DETECT HANDS
 // ==========================================
 
-
 function detectHands() {
+    if (!detecting) return;
 
+    const video = document.getElementById("cameraVideo");
 
-    if (!detecting) {
+    if (video.readyState >= 2 && video.currentTime !== lastVideoTime) {
+        lastVideoTime = video.currentTime;
 
+        const results = handLandmarker.detectForVideo(video, performance.now());
 
-        return;
-
-    }
-
-
-    const video =
-
-        document.getElementById(
-
-            "cameraVideo"
-
-        );
-
-
-    if (
-
-        video.readyState >= 2 &&
-
-        video.currentTime !==
-
-        lastVideoTime
-
-    ) {
-
-
-        lastVideoTime =
-
-            video.currentTime;
-
-
-        const results =
-
-            handLandmarker
-
-                .detectForVideo(
-
-                    video,
-
-                    performance.now()
-
-                );
-
-
-        if (
-
-
-            results.landmarks &&
-
-            results.landmarks.length > 0
-
-        ) {
-
-
-            const landmarks =
-
-                results.landmarks[0];
-
-
-            recognizeGesture(
-
-                landmarks
-
-            );
-
-
-            drawLandmarks(
-
-                landmarks
-
-            );
-
-
-        }
-
-
-        else {
-
-
-            document
-
-                .getElementById(
-
-                    "cameraStatus"
-
-                )
-
-                .innerText =
-
+        if (results.landmarks && results.landmarks.length > 0) {
+            const landmarks = results.landmarks[0];
+            recognizeGesture(landmarks);
+            drawLandmarks(landmarks);
+        } else {
+            document.getElementById("cameraStatus").innerText =
                 "Show your hand in front of the camera 🤟";
-
-
             clearCanvas();
-
         }
-
-
     }
 
-
-    requestAnimationFrame(
-
-        detectHands
-
-    );
-
+    requestAnimationFrame(detectHands);
 }
-
 
 // ==========================================
 // RECOGNIZE SIMPLE GESTURES
 // ==========================================
 
-
-function recognizeGesture(
-
-    landmarks
-
-) {
-
-
-    const thumbTip =
-
-        landmarks[4];
-
-
-    const indexTip =
-
-        landmarks[8];
-
-
-    const middleTip =
-
-        landmarks[12];
-
-
-    const ringTip =
-
-        landmarks[16];
-
-
-    const pinkyTip =
-
-        landmarks[20];
-
-
-    const wrist =
-
-        landmarks[0];
-
+function recognizeGesture(landmarks) {
+    const thumbTip = landmarks[4];
+    const indexTip = landmarks[8];
+    const middleTip = landmarks[12];
+    const ringTip = landmarks[16];
+    const pinkyTip = landmarks[20];
+    const wrist = landmarks[0];
 
     let message = "";
 
-
-    // THUMBS UP
-
-
     if (
-
-
         thumbTip.y < wrist.y &&
-
         indexTip.y > wrist.y &&
-
         middleTip.y > wrist.y &&
-
         ringTip.y > wrist.y &&
-
         pinkyTip.y > wrist.y
-
     ) {
-
-
-        message =
-
-            "Yes 👍";
-
-
-    }
-
-
-    // OPEN HAND
-
-
-    else if (
-
-
+        message = "Yes 👍";
+    } else if (
         indexTip.y < wrist.y &&
-
         middleTip.y < wrist.y &&
-
         ringTip.y < wrist.y &&
-
         pinkyTip.y < wrist.y
-
     ) {
-
-
-        message =
-
-            "Hello 👋";
-
-
-    }
-
-
-    // CLOSED HAND
-
-
-    else if (
-
-
+        message = "Hello 👋";
+    } else if (
         indexTip.y > wrist.y &&
-
         middleTip.y > wrist.y &&
-
         ringTip.y > wrist.y &&
-
         pinkyTip.y > wrist.y
-
     ) {
-
-
-        message =
-
-            "Stop ✊";
-
-
+        message = "Stop ✊";
     }
-
 
     if (message !== "") {
-
-
-        updateResult(
-
-            message
-
-        );
-
-
+        updateResult(message);
     }
-
-
 }
-
 
 // ==========================================
 // UPDATE RESULT
 // ==========================================
 
-
-function updateResult(
-
-    message
-
-) {
-
-
-    currentMessage =
-
-        message;
-
-
-    document
-
-        .getElementById(
-
-            "resultText"
-
-        )
-
-        .innerText =
-
-        message;
-
-
-    document
-
-        .getElementById(
-
-            "detectedText"
-
-        )
-
-        .innerText =
-
-        message;
-
-
-    document
-
-        .getElementById(
-
-            "cameraStatus"
-
-        )
-
-        .innerText =
-
-        "AI detected: " +
-
-        message;
-
-
+function updateResult(message) {
+    currentMessage = message;
+    document.getElementById("resultText").innerText = message;
+    document.getElementById("detectedText").innerText = message;
+    document.getElementById("cameraStatus").innerText = "AI detected: " + message;
 }
 
-
 // ==========================================
-// DRAW HAND LANDMARKS
+// DRAW HAND LANDMARKS (mirror-corrected)
 // ==========================================
 
+function drawLandmarks(landmarks) {
+    const video = document.getElementById("cameraVideo");
+    const canvas = document.getElementById("handCanvas");
+    const ctx = canvas.getContext("2d");
 
-function drawLandmarks(
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-    landmarks
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-) {
-
-
-    const video =
-
-        document.getElementById(
-
-            "cameraVideo"
-
-        );
-
-
-    const canvas =
-
-        document.getElementById(
-
-            "handCanvas"
-
-        );
-
-
-    const ctx =
-
-        canvas.getContext(
-
-            "2d"
-
-        );
-
-
-    canvas.width =
-
-        video.videoWidth;
-
-
-    canvas.height =
-
-        video.videoHeight;
-
-
-    ctx.clearRect(
-
-        0,
-
-        0,
-
-        canvas.width,
-
-        canvas.height
-
-    );
-
-
-    for (
-
-        const point
-
-        of landmarks
-
-    ) {
-
+    for (const point of landmarks) {
+        const x = (1 - point.x) * canvas.width;
+        const y = point.y * canvas.height;
 
         ctx.beginPath();
-
-
-        ctx.arc(
-
-            point.x *
-
-                canvas.width,
-
-
-            point.y *
-
-                canvas.height,
-
-
-            6,
-
-
-            0,
-
-
-            2 *
-
-                Math.PI
-
-        );
-
-
-        ctx.fillStyle =
-
-            "#ffffff";
-
-
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
+        ctx.fillStyle = "#ffffff";
         ctx.fill();
-
-
     }
-
-
 }
-
-
-// ==========================================
-// CLEAR CANVAS
-// ==========================================
-
 
 function clearCanvas() {
-
-
-    const canvas =
-
-        document.getElementById(
-
-            "handCanvas"
-
-        );
-
-
-    const ctx =
-
-        canvas.getContext(
-
-            "2d"
-
-        );
-
-
-    ctx.clearRect(
-
-        0,
-
-        0,
-
-        canvas.width,
-
-        canvas.height
-
-    );
-
+    const canvas = document.getElementById("handCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-
 
 // ==========================================
 // STOP CAMERA
 // ==========================================
 
-
 function stopCamera() {
-
-
     detecting = false;
 
-
     if (cameraStream) {
-
-
-        cameraStream
-
-            .getTracks()
-
-            .forEach(
-
-                function(track) {
-
-
-                    track.stop();
-
-
-                }
-
-            );
-
-
-        cameraStream =
-
-            null;
-
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
     }
 
+    const video = document.getElementById("cameraVideo");
+    const message = document.getElementById("cameraMessage");
 
-    const video =
+    video.srcObject = null;
+    video.style.display = "none";
+    message.style.display = "block";
 
-        document.getElementById(
-
-            "cameraVideo"
-
-        );
-
-
-    const message =
-
-        document.getElementById(
-
-            "cameraMessage"
-
-        );
-
-
-    video.srcObject =
-
-        null;
-
-
-    video.style.display =
-
-        "none";
-
-
-    message.style.display =
-
-        "block";
-
-
-    document
-
-        .getElementById(
-
-            "cameraStatus"
-
-        )
-
-        .innerText =
-
-        "Camera stopped";
-
-
+    document.getElementById("cameraStatus").innerText = "Camera stopped";
     clearCanvas();
-
-
 }
-
 
 // ==========================================
 // HERO CAMERA
 // ==========================================
 
-
 async function startHeroCamera() {
-
-
-    const video =
-
-        document.getElementById(
-
-            "heroVideo"
-
-        );
-
-
-    const message =
-
-        document.getElementById(
-
-            "heroCameraMessage"
-
-        );
-
+    const video = document.getElementById("heroVideo");
+    const message = document.getElementById("heroCameraMessage");
 
     try {
-
-
-        const stream =
-
-            await navigator.mediaDevices
-
-                .getUserMedia({
-
-                    video: true,
-
-                    audio: false
-
-                });
-
-
-        video.srcObject =
-
-            stream;
-
-
-        video.style.display =
-
-            "block";
-
-
-        message.style.display =
-
-            "none";
-
-
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+        });
+        video.srcObject = stream;
+        video.style.display = "block";
+        message.style.display = "none";
+    } catch (error) {
+        console.error("Hero camera error:", error);
     }
-
-
-    catch (error) {
-
-
-        alert(
-
-            "Please allow camera permission."
-
-        );
-
-
-    }
-
-
 }
-
 
 // ==========================================
 // TEXT TO SPEECH
 // ==========================================
 
-
 function speakText() {
-
-
     if (!currentMessage) {
-
-
-        alert(
-
-            "Show a hand gesture first 🤟"
-
-        );
-
-
+        document.getElementById("cameraStatus").innerText = "Show a hand gesture first 🤟";
         return;
-
     }
-
-
-    const speech =
-
-        new SpeechSynthesisUtterance(
-
-            currentMessage
-
-        );
-
-
-    speech.lang =
-
-        "en-US";
-
-
-    window.speechSynthesis
-
-        .speak(
-
-            speech
-
-        );
-
-
+    const speech = new SpeechSynthesisUtterance(currentMessage);
+    speech.lang = "en-US";
+    window.speechSynthesis.speak(speech);
 }
 
-
-// ==========================================
-// DEMO BUTTONS
-// ==========================================
-
-
-function detectSign(
-
-    message
-
-) {
-
-
-    updateResult(
-
-        message
-
-    );
-
-
+function detectSign(message) {
+    updateResult(message);
 }
 
+function changeMode(mode, selectedButton) {
+    document.querySelectorAll(".mode-buttons button").forEach(b => b.classList.remove("active"));
+    selectedButton.classList.add("active");
 
-// ==========================================
-// CHANGE MODE
-// ==========================================
-
-
-function changeMode(
-
-    mode,
-
-    selectedButton
-
-) {
-
-
-    const buttons =
-
-        document
-
-            .querySelectorAll(
-
-                ".mode-buttons button"
-
-            );
-
-
-    buttons.forEach(
-
-        function(button) {
-
-
-            button
-
-                .classList
-
-                .remove(
-
-                    "active"
-
-                );
-
-
-        }
-
-    );
-
-
-    selectedButton
-
-        .classList
-
-        .add(
-
-            "active"
-
-        );
-
-
-    const result =
-
-        document
-
-            .getElementById(
-
-                "resultText"
-
-            );
-
-
-    if (mode === "sign") {
-
-
-        result.innerText =
-
-            "Show your hand to begin 🤟";
-
-
-    }
-
-
-    else {
-
-
-        result.innerText =
-
-            "Voice mode selected 🎤";
-
-
-    }
-
-
+    const result = document.getElementById("resultText");
+    result.innerText = mode === "sign" ? "Show your hand to begin 🤟" : "Voice mode selected 🎤";
 }
 
-
-// ==========================================
-// SCROLL
-// ==========================================
-
-
-function scrollToSection(
-
-    sectionId
-
-) {
-
-
-    document
-
-        .getElementById(
-
-            sectionId
-
-        )
-
-        .scrollIntoView({
-
-            behavior: "smooth"
-
-        });
-
-
-            }
+function scrollToSection(sectionId) {
+    document.getElementById(sectionId).scrollIntoView({ behavior: "smooth" });
+                }
