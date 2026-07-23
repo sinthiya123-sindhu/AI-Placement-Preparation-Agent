@@ -1,833 +1,451 @@
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
 }
-
 
 html {
-
     scroll-behavior: smooth;
-
 }
-
 
 body {
-
     font-family: Arial, sans-serif;
-
     background: #f8f9ff;
-
     color: #17172b;
-
 }
-
 
 /* ================= NAVBAR ================= */
 
-
 nav {
-
     height: 75px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     padding: 0 8%;
-
     background: white;
-
     position: sticky;
-
     top: 0;
-
     z-index: 1000;
-
-    box-shadow:
-
-        0 2px 15px
-
-        rgba(0, 0, 0, 0.05);
-
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
-
 
 .logo {
-
     font-size: 22px;
-
     font-weight: bold;
-
 }
-
 
 .nav-links {
-
     display: flex;
-
     gap: 30px;
-
 }
-
 
 .nav-links a {
-
     text-decoration: none;
-
     color: #555;
-
     font-size: 15px;
-
 }
-
 
 .nav-links a:hover {
-
     color: #6c4cff;
-
 }
-
 
 button {
-
     font-family: inherit;
-
     cursor: pointer;
-
 }
-
 
 /* ================= BUTTONS ================= */
 
-
 .nav-btn,
-
 .primary-btn {
-
     border: none;
-
     padding: 13px 24px;
-
     border-radius: 30px;
-
     background: #6c4cff;
-
     color: white;
-
     font-weight: bold;
-
 }
-
 
 .nav-btn:hover,
-
 .primary-btn:hover {
-
     background: #5435d6;
-
 }
-
 
 .secondary-btn {
-
     padding: 13px 24px;
-
     border: 1px solid #ddd;
-
     border-radius: 30px;
-
     background: white;
-
 }
-
 
 /* ================= HERO ================= */
 
-
 .hero {
-
     min-height: 650px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     padding: 80px 10%;
-
     gap: 60px;
-
 }
-
 
 .hero-text {
-
     max-width: 570px;
-
 }
-
 
 .tag {
-
     color: #6c4cff;
-
     font-size: 12px;
-
     font-weight: bold;
-
     letter-spacing: 2px;
-
 }
-
 
 h1 {
-
     font-size: 58px;
-
     line-height: 1.1;
-
     margin: 25px 0;
-
 }
-
 
 h1 span {
-
     color: #6c4cff;
-
 }
-
 
 .hero-text p {
-
     color: #666;
-
     font-size: 18px;
-
     line-height: 1.7;
-
 }
-
 
 .hero-buttons {
-
     display: flex;
-
     gap: 15px;
-
     margin-top: 30px;
-
 }
-
 
 /* ================= HERO CAMERA ================= */
 
-
 .hero-card {
-
     width: 430px;
-
     background: white;
-
     border-radius: 20px;
-
     padding: 20px;
-
-    box-shadow:
-
-        0 20px 50px
-
-        rgba(0, 0, 0, 0.1);
-
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 }
-
 
 .card-header {
-
     display: flex;
-
     justify-content: space-between;
-
     font-size: 11px;
-
     font-weight: bold;
-
     color: #777;
-
     margin-bottom: 15px;
-
 }
-
 
 .status {
-
     color: green;
-
 }
-
 
 .hero-camera-box {
-
     height: 250px;
-
     border-radius: 15px;
-
     background: #17172b;
-
     color: white;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 15px;
-
     overflow: hidden;
-
     position: relative;
-
 }
-
 
 #heroVideo {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: none;
-
+    transform: scaleX(-1);
 }
-
 
 #heroCameraMessage {
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     gap: 15px;
-
 }
-
 
 .camera-icon {
-
     font-size: 55px;
-
 }
-
 
 .hero-camera-box button {
-
     border: none;
-
     padding: 10px 20px;
-
     border-radius: 20px;
-
 }
-
 
 .translation-result {
-
     margin-top: 20px;
-
 }
-
 
 .translation-result span,
-
 .result-label {
-
     font-size: 11px;
-
     color: #777;
-
     font-weight: bold;
-
 }
-
 
 .translation-result h2 {
-
     margin-top: 8px;
-
 }
-
 
 /* ================= SECTIONS ================= */
 
-
 .section {
-
     padding: 100px 10%;
-
     background: white;
-
 }
-
 
 .section-title {
-
     text-align: center;
-
     max-width: 650px;
-
     margin: auto;
-
 }
-
 
 .section-title h2 {
-
     font-size: 38px;
-
     margin: 20px 0;
-
 }
-
 
 .section-title p {
-
     color: #666;
-
     line-height: 1.6;
-
 }
-
 
 /* ================= STEPS ================= */
 
-
 .steps {
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 25px;
-
     margin-top: 60px;
-
 }
-
 
 .step-card {
-
     width: 230px;
-
     padding: 30px;
-
     text-align: center;
-
     border-radius: 18px;
-
     background: #f8f9ff;
-
 }
-
 
 .step-icon {
-
     font-size: 45px;
-
     margin-bottom: 15px;
-
 }
-
 
 .step-card h3 {
-
     margin-bottom: 10px;
-
 }
-
 
 .step-card p {
-
     color: #666;
-
     line-height: 1.5;
-
 }
-
 
 .arrow {
-
     font-size: 30px;
-
     color: #6c4cff;
-
 }
-
 
 /* ================= COMMUNICATION ================= */
 
-
 .communication-section {
-
     padding: 100px 10%;
-
 }
-
 
 .communication-box {
-
     max-width: 1000px;
-
     margin: 50px auto 0;
-
     background: white;
-
     padding: 25px;
-
     border-radius: 20px;
-
-    box-shadow:
-
-        0 10px 40px
-
-        rgba(0, 0, 0, 0.08);
-
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
-
 
 .mode-buttons {
-
     display: flex;
-
     gap: 10px;
-
     margin-bottom: 25px;
-
 }
-
 
 .mode-buttons button {
-
     padding: 12px 20px;
-
     border: none;
-
     border-radius: 25px;
-
     background: #eee;
-
 }
-
 
 .mode-buttons button.active {
-
     background: #6c4cff;
-
     color: white;
-
 }
-
 
 .demo-area {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 25px;
-
 }
-
 
 .camera-demo,
-
 .result-area {
-
     padding: 25px;
-
     border-radius: 15px;
-
     background: #f8f9ff;
-
 }
-
 
 /* ================= CAMERA ================= */
 
-
 .camera-placeholder {
-
     height: 300px;
-
     background: #17172b;
-
     color: white;
-
     border-radius: 15px;
-
     position: relative;
-
     overflow: hidden;
-
     margin-bottom: 20px;
-
 }
-
 
 #cameraVideo {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
-
     display: none;
-
     transform: scaleX(-1);
-
 }
-
 
 #handCanvas {
-
     position: absolute;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     pointer-events: none;
-
 }
-
 
 #cameraMessage {
-
     position: absolute;
-
     top: 50%;
-
     left: 50%;
-
     transform: translate(-50%, -50%);
-
     text-align: center;
-
 }
-
 
 #cameraMessage span {
-
     font-size: 50px;
-
 }
-
 
 .camera-buttons {
-
     display: flex;
-
     gap: 10px;
-
     flex-wrap: wrap;
-
 }
-
 
 .stop-btn {
-
     padding: 13px 24px;
-
     border: none;
-
     border-radius: 30px;
-
     background: #333;
-
     color: white;
-
     font-weight: bold;
-
 }
-
 
 #cameraStatus {
-
     margin-top: 15px;
-
     font-size: 14px;
-
     color: #666;
-
 }
-
 
 /* ================= RESULT ================= */
 
-
 .result-area h2 {
-
     margin: 20px 0;
-
 }
-
 
 .speak-btn {
-
     border: none;
-
     padding: 12px 20px;
-
     border-radius: 25px;
-
     background: #17172b;
-
     color: white;
-
 }
-
 
 .quick-signs {
-
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 10px;
-
     margin-top: 25px;
-
 }
-
 
 .quick-signs button {
-
     border: 1px solid #ddd;
-
     background: white;
-
     padding: 8px 12px;
-
     border-radius: 20px;
-
 }
-
 
 /* ================= FOOTER ================= */
 
-
 footer {
-
     padding: 50px 10%;
-
     text-align: center;
-
     background: #17172b;
-
     color: white;
-
 }
-
 
 footer p {
-
     color: #aaa;
-
     margin: 12px 0;
-
 }
-
 
 .copyright {
-
     font-size: 13px;
-
 }
-
 
 /* ================= MOBILE ================= */
 
-
 @media (max-width: 800px) {
-
-
     .nav-links {
-
         display: none;
-
     }
-
 
     .hero {
-
         flex-direction: column;
-
         text-align: center;
-
     }
-
 
     h1 {
-
         font-size: 40px;
-
     }
-
 
     .hero-buttons {
-
         justify-content: center;
-
     }
-
 
     .hero-card {
-
         width: 100%;
-
     }
-
 
     .steps {
-
         flex-direction: column;
-
     }
-
 
     .arrow {
-
         transform: rotate(90deg);
-
     }
-
 
     .demo-area {
-
         grid-template-columns: 1fr;
-
     }
-
-
-    
+    }
