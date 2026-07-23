@@ -1,7 +1,3 @@
-// =====================================
-// AI PLACEMENT PREPARATION AGENT
-// =====================================
-
 let user = {
     name: "",
     role: "",
@@ -13,9 +9,7 @@ let currentQuestion = 0;
 let score = 0;
 
 
-// =====================================
 // QUESTIONS
-// =====================================
 
 const aptitudeQuestions = [
     {
@@ -94,22 +88,12 @@ const aptitudeQuestions = [
 const technicalQuestions = [
     {
         question: "Which keyword defines a function in Python?",
-        options: [
-            "function",
-            "def",
-            "fun",
-            "define"
-        ],
+        options: ["function", "def", "fun", "define"],
         answer: 1
     },
     {
         question: "Which is ordered and changeable in Python?",
-        options: [
-            "Tuple",
-            "Set",
-            "List",
-            "String"
-        ],
+        options: ["Tuple", "Set", "List", "String"],
         answer: 2
     },
     {
@@ -124,32 +108,17 @@ const technicalQuestions = [
     },
     {
         question: "Which SQL command retrieves data?",
-        options: [
-            "GET",
-            "SELECT",
-            "FETCH",
-            "SHOW"
-        ],
+        options: ["GET", "SELECT", "FETCH", "SHOW"],
         answer: 1
     },
     {
         question: "Which symbol is used for Python comments?",
-        options: [
-            "//",
-            "#",
-            "/*",
-            "--"
-        ],
+        options: ["//", "#", "/*", "--"],
         answer: 1
     },
     {
         question: "Which HTML tag creates a paragraph?",
-        options: [
-            "<p>",
-            "<para>",
-            "<text>",
-            "<paragraph>"
-        ],
+        options: ["<p>", "<para>", "<text>", "<paragraph>"],
         answer: 0
     },
     {
@@ -174,22 +143,12 @@ const technicalQuestions = [
     },
     {
         question: "Which data structure follows FIFO?",
-        options: [
-            "Stack",
-            "Queue",
-            "Tree",
-            "Graph"
-        ],
+        options: ["Stack", "Queue", "Tree", "Graph"],
         answer: 1
     },
     {
         question: "Which command removes all rows from a table?",
-        options: [
-            "DELETE",
-            "DROP",
-            "TRUNCATE",
-            "REMOVE"
-        ],
+        options: ["DELETE", "DROP", "TRUNCATE", "REMOVE"],
         answer: 2
     }
 ];
@@ -223,9 +182,7 @@ const interviewQuestions = [
 ];
 
 
-// =====================================
-// USER STORAGE
-// =====================================
+// STORAGE
 
 function getUserKey() {
 
@@ -243,12 +200,17 @@ function getSavedData() {
     let saved = localStorage.getItem(getUserKey());
 
     if (saved) {
+
         return JSON.parse(saved);
+
     }
 
     return {
+
         user: user,
+
         progress: {}
+
     };
 
 }
@@ -264,72 +226,65 @@ function saveData(data) {
 }
 
 
-// =====================================
-// LOGIN / SETUP
-// =====================================
+// SETUP
 
 document
     .getElementById("setupForm")
-    .addEventListener(
-        "submit",
-        function (event) {
+    .addEventListener("submit", function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-            let name = document
+        let name =
+            document
                 .getElementById("userName")
                 .value
                 .trim();
 
-            let role = document
+        let role =
+            document
                 .getElementById("targetRole")
                 .value;
 
-            let skills = [
-                ...document.querySelectorAll(
-                    ".skills input:checked"
-                )
-            ].map(
-                input => input.value
+        let skills =
+            [...document.querySelectorAll(".skills input:checked")]
+                .map(input => input.value);
+
+        user = {
+            name: name,
+            role: role,
+            skills: skills
+        };
+
+        let savedData = getSavedData();
+
+        if (
+            savedData.user &&
+            Object.keys(savedData.progress).length > 0
+        ) {
+
+            user = savedData.user;
+
+            openApp();
+
+            alert(
+                `Welcome back, ${user.name}! 👋\n\nYour progress has been saved.`
             );
 
-            user = {
-                name: name,
-                role: role,
-                skills: skills
-            };
+        } else {
 
-            let savedData = getSavedData();
+            saveData({
+                user: user,
+                progress: {}
+            });
 
-            if (
-                savedData.user &&
-                Object.keys(savedData.progress).length > 0
-            ) {
-
-                user = savedData.user;
-
-                openApp();
-
-                showWelcomeBackMessage();
-
-            } else {
-
-                saveData({
-                    user: user,
-                    progress: {}
-                });
-
-                openApp();
-
-            }
+            openApp();
 
         }
-    );
+
+    });
 
 
-// =====================================
 // OPEN APP
-// =====================================
 
 function openApp() {
 
@@ -348,9 +303,7 @@ function openApp() {
 }
 
 
-// =====================================
 // DASHBOARD
-// =====================================
 
 function loadDashboard() {
 
@@ -385,33 +338,7 @@ function loadDashboard() {
 }
 
 
-// =====================================
-// WELCOME BACK
-// =====================================
-
-function showWelcomeBackMessage() {
-
-    setTimeout(
-        function () {
-
-            alert(
-                `Welcome back, ${user.name}! 👋
-
-Your progress has been saved.
-
-You can continue from where you stopped.`
-            );
-
-        },
-        500
-    );
-
-}
-
-
-// =====================================
-// CONTINUE CARD
-// =====================================
+// CONTINUE
 
 function createContinueCard() {
 
@@ -432,11 +359,10 @@ function createContinueCard() {
 
             html += `
 
-                <div class="continue-box">
+                <div class="dashboard-card">
 
                     <h2>
-                        🔄 Continue
-                        ${type.toUpperCase()}
+                        🔄 Continue ${type.toUpperCase()}
                     </h2>
 
                     <p>
@@ -454,9 +380,7 @@ function createContinueCard() {
                         onclick="startPractice('${type}')"
                     >
 
-                        Continue from Question
-                        ${item.question + 1}
-                        →
+                        Continue Practice →
 
                     </button>
 
@@ -475,9 +399,7 @@ function createContinueCard() {
 }
 
 
-// =====================================
 // START PRACTICE
-// =====================================
 
 function startPractice(type) {
 
@@ -526,9 +448,7 @@ function startPractice(type) {
 }
 
 
-// =====================================
 // LOAD QUESTION
-// =====================================
 
 function loadQuestion() {
 
@@ -616,7 +536,8 @@ function loadQuestion() {
 
         document
             .getElementById("answerArea")
-            .innerHTML = html;
+            .innerHTML =
+            html;
 
     } else {
 
@@ -650,9 +571,7 @@ function loadQuestion() {
 }
 
 
-// =====================================
-// CHECK MCQ ANSWER
-// =====================================
+// CHECK MCQ
 
 function checkAnswer(selected) {
 
@@ -713,9 +632,7 @@ function checkAnswer(selected) {
 }
 
 
-// =====================================
-// TEXT ANSWER CHECK
-// =====================================
+// TEXT ANSWER
 
 function submitTextAnswer() {
 
@@ -725,17 +642,10 @@ function submitTextAnswer() {
             .value
             .trim();
 
-    let words =
-        answer
-            .split(/\s+/)
-            .filter(
-                word => word.length > 0
-            );
-
-    if (words.length < 5) {
+    if (answer.length < 5) {
 
         showFeedback(
-            "⚠️ Your answer is too short. Please provide a complete answer.",
+            "⚠️ Please write a complete answer.",
             false
         );
 
@@ -743,90 +653,12 @@ function submitTextAnswer() {
 
     }
 
-    if (currentType === "interview") {
+    score++;
 
-        let lowerAnswer =
-            answer.toLowerCase();
-
-        let keywords = [
-            "student",
-            "education",
-            "skill",
-            "python",
-            "sql",
-            "project",
-            "experience",
-            "goal",
-            "strength",
-            "learn",
-            "company",
-            "career"
-        ];
-
-        let foundKeywords =
-            keywords.filter(
-                keyword =>
-                    lowerAnswer.includes(keyword)
-            );
-
-        if (foundKeywords.length < 2) {
-
-            showFeedback(
-                "⚠️ Your answer needs more relevant details. Try to include your education, skills, project, experience, or career goal.",
-                false
-            );
-
-            return;
-
-        }
-
-        score++;
-
-        showFeedback(
-            "✅ Good answer! Your response contains relevant details.",
-            true
-        );
-
-    } else {
-
-        let codingKeywords = [
-            "print",
-            "if",
-            "for",
-            "while",
-            "def",
-            "return",
-            "input",
-            "int"
-        ];
-
-        let found =
-            codingKeywords.filter(
-                keyword =>
-                    answer
-                        .toLowerCase()
-                        .includes(keyword)
-            );
-
-        if (found.length < 1) {
-
-            showFeedback(
-                "⚠️ Please write a proper programming solution with logic or code.",
-                false
-            );
-
-            return;
-
-        }
-
-        score++;
-
-        showFeedback(
-            "✅ Good! Your answer contains programming logic.",
-            true
-        );
-
-    }
+    showFeedback(
+        "✅ Good answer! Keep improving.",
+        true
+    );
 
     saveProgress();
 
@@ -838,9 +670,7 @@ function submitTextAnswer() {
 }
 
 
-// =====================================
 // SAVE PROGRESS
-// =====================================
 
 function saveProgress() {
 
@@ -865,9 +695,7 @@ function saveProgress() {
 }
 
 
-// =====================================
-// NEXT QUESTION
-// =====================================
+// NEXT
 
 function nextQuestion() {
 
@@ -902,9 +730,7 @@ function nextQuestion() {
 }
 
 
-// =====================================
 // COMPLETED
-// =====================================
 
 function showCompleted() {
 
@@ -920,13 +746,12 @@ function showCompleted() {
             <div class="feedback success">
 
                 <h2>
-                    Your Score:
-                    ${score} / 10
+                    Your Score: ${score} / 10
                 </h2>
 
-                <br>
-
-                Great job! Keep preparing 🚀
+                <p>
+                    Great job! Keep preparing 🚀
+                </p>
 
             </div>
 
@@ -940,9 +765,7 @@ function showCompleted() {
 }
 
 
-// =====================================
 // FEEDBACK
-// =====================================
 
 function showFeedback(message, success) {
 
@@ -951,9 +774,7 @@ function showFeedback(message, success) {
         .innerHTML = `
 
             <div class="feedback ${
-                success
-                    ? "success"
-                    : "error"
+                success ? "success" : "error"
             }">
 
                 ${message}
@@ -965,9 +786,7 @@ function showFeedback(message, success) {
 }
 
 
-// =====================================
 // DASHBOARD
-// =====================================
 
 function showDashboard() {
 
@@ -991,9 +810,7 @@ function showDashboard() {
 }
 
 
-// =====================================
 // PROGRESS
-// =====================================
 
 function showProgress() {
 
@@ -1055,7 +872,7 @@ function showProgress() {
 
                     <p>
                         Score:
-                        ${currentScore}
+                        ${currentScore} / 10
                     </p>
 
                 </div>
@@ -1067,14 +884,13 @@ function showProgress() {
 
     document
         .getElementById("progressContent")
-        .innerHTML = html;
+        .innerHTML =
+        html;
 
 }
 
 
-// =====================================
 // STATS
-// =====================================
 
 function updateStats() {
 
@@ -1112,9 +928,7 @@ function updateStats() {
 }
 
 
-// =====================================
 // SKILL ANALYSIS
-// =====================================
 
 function createSkillAnalysis() {
 
@@ -1177,9 +991,7 @@ function createSkillAnalysis() {
 }
 
 
-// =====================================
 // ROADMAP
-// =====================================
 
 function createRoadmap() {
 
@@ -1239,9 +1051,7 @@ function createRoadmap() {
 }
 
 
-// =====================================
-// AI CHAT
-// =====================================
+// CHAT
 
 function sendMessage() {
 
@@ -1249,19 +1059,19 @@ function sendMessage() {
         document
             .getElementById("chatInput");
 
-    if (!input) return;
-
     let message =
         input.value.trim();
 
     if (message === "") {
-        return;
-    }
 
-    let reply = "";
+        return;
+
+    }
 
     let text =
         message.toLowerCase();
+
+    let reply = "";
 
     if (
         text.includes("start") ||
@@ -1269,98 +1079,42 @@ function sendMessage() {
         text.includes("where")
     ) {
 
-        reply = `
-
-            Hi ${user.name}! 👋
-
-            Based on your profile, I recommend starting with
-
-            <b>Aptitude Practice</b>.
-
-            It will help you build your problem-solving foundation.
-
-            🚀 Click Aptitude to begin!
-
-        `;
+        reply =
+            `Hi ${user.name}! 👋 I recommend starting with Aptitude Practice. It will improve your problem-solving foundation. 🚀`;
 
     } else if (
         text.includes("progress") ||
         text.includes("continue")
     ) {
 
-        reply = `
-
-            Your progress is saved automatically 💾
-
-            When you return later, you can continue from where you stopped.
-
-        `;
+        reply =
+            "Your progress is saved automatically 💾 You can continue from where you stopped.";
 
     } else if (
         text.includes("interview")
     ) {
 
-        reply = `
-
-            For interview preparation 🎤,
-
-            answer in complete sentences.
-
-            Include your education, skills, projects,
-
-            strengths and career goals.
-
-        `;
+        reply =
+            "For interview preparation 🎤, answer in complete sentences and include your education, skills, projects, strengths and career goals.";
 
     } else if (
         text.includes("aptitude")
     ) {
 
-        reply = `
-
-            Aptitude practice improves your logical thinking
-
-            and problem-solving skills 🧮.
-
-            Start with Aptitude from the sidebar!
-
-        `;
+        reply =
+            "Aptitude practice improves your logical thinking and problem-solving skills 🧮.";
 
     } else if (
         text.includes("technical")
     ) {
 
-        reply = `
-
-            Technical preparation covers Python, SQL,
-
-            HTML, CSS and programming concepts 💻.
-
-        `;
+        reply =
+            "Technical preparation covers Python, SQL, HTML, CSS and programming concepts 💻.";
 
     } else {
 
-        reply = `
-
-            I can help you with:
-
-            🧮 Aptitude
-
-            💻 Technical Questions
-
-            ⌨️ Coding
-
-            🎤 Mock Interview
-
-            📊 Progress
-
-            <br><br>
-
-            Ask me:
-
-            <b>"Where should I start?"</b>
-
-        `;
+        reply =
+            "I can help you with Aptitude, Technical Questions, Coding, Mock Interview and Progress 📊.";
 
     }
 
@@ -1383,42 +1137,22 @@ function sendMessage() {
 }
 
 
-// =====================================
-// CHANGE USER
-// =====================================
+// RESET USER
 
 function resetUser() {
+
+    localStorage.removeItem(getUserKey());
 
     location.reload();
 
 }
 
 
-// =====================================
-// INITIAL SCREEN
-// =====================================
+// ENTER KEY
 
 document
-    .getElementById("setupScreen")
-    .classList
-    .remove("hidden");
-
-document
-    .getElementById("app")
-    .classList
-    .add("hidden");
-
-
-// =====================================
-// ENTER KEY CHAT
-// =====================================
-
-let chatInput =
-    document.getElementById("chatInput");
-
-if (chatInput) {
-
-    chatInput.addEventListener(
+    .getElementById("chatInput")
+    .addEventListener(
         "keydown",
         function (event) {
 
@@ -1430,5 +1164,3 @@ if (chatInput) {
 
         }
     );
-
-    }
