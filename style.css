@@ -1,12 +1,16 @@
+/* =========================
+   MODERN AI PLACEMENT UI
+========================= */
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f7fb;
-    color: #222;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f3f4ff;
+    color: #202124;
 }
 
 .hidden {
@@ -14,7 +18,9 @@ body {
 }
 
 
-/* SETUP */
+/* =========================
+   SETUP SCREEN
+========================= */
 
 .setup-screen {
     min-height: 100vh;
@@ -22,91 +28,158 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+
+    background:
+        radial-gradient(circle at top left, #dcd7ff, transparent 40%),
+        linear-gradient(135deg, #f7f5ff, #eef2ff);
 }
 
 .setup-card {
     width: 100%;
     max-width: 450px;
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px #0002;
+    padding: 35px;
+    border-radius: 24px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    box-shadow:
+        0 20px 60px rgba(79, 70, 229, 0.15),
+        0 5px 20px rgba(0, 0, 0, 0.08);
+
+    backdrop-filter: blur(10px);
 }
 
 .setup-card h1 {
     text-align: center;
+    color: #29245c;
+    margin-bottom: 8px;
 }
 
 .setup-card p {
     text-align: center;
-    color: #666;
+    color: #777;
+    margin-bottom: 25px;
 }
+
+
+/* INPUTS */
 
 input,
 select,
 textarea {
     width: 100%;
-    padding: 14px;
-    margin: 10px 0;
+    padding: 14px 16px;
+    margin: 8px 0 15px;
+
     border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 12px;
+
+    font-size: 15px;
+    background: #fafaff;
 }
 
-textarea {
-    min-height: 180px;
-    resize: vertical;
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #6d5dfc;
+    box-shadow: 0 0 0 3px #6d5dfc22;
 }
+
+
+/* SKILLS */
 
 .skills {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     margin-bottom: 20px;
 }
 
 .skills label {
-    padding: 10px;
-    background: #f1f3f8;
-    border-radius: 8px;
+    padding: 12px;
+
+    background: #f3f3f8;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.skills label:hover {
+    background: #e7e5ff;
 }
 
 .skills input {
     width: auto;
+    margin: 0 5px 0 0;
 }
 
 
-/* BUTTONS */
+/* =========================
+   BUTTONS
+========================= */
 
 button {
     border: none;
     padding: 12px 18px;
-    border-radius: 10px;
+    border-radius: 12px;
+
     cursor: pointer;
-    font-size: 15px;
-    margin: 5px;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
 }
 
 .primary-btn {
     width: 100%;
-    background: #4f46e5;
+
+    background: linear-gradient(
+        135deg,
+        #743cff,
+        #405de6
+    );
+
     color: white;
     font-weight: bold;
+
+    box-shadow: 0 8px 20px #4f46e544;
 }
 
 .back-btn {
-    background: #ddd;
+    background: #e5e5e5;
 }
 
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header {
-    background: #4f46e5;
+    background:
+        linear-gradient(
+            135deg,
+            #3b238f,
+            #5425b8
+        );
+
     color: white;
-    padding: 20px;
+
+    padding: 20px 30px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    box-shadow: 0 5px 20px #0002;
+}
+
+header h1 {
+    margin: 0;
 }
 
 header button {
@@ -115,197 +188,360 @@ header button {
 }
 
 
-/* NAV */
+/* =========================
+   NAVIGATION
+========================= */
 
 nav {
+    background: #ffffff;
     padding: 15px;
-    background: white;
+
     text-align: center;
+
+    box-shadow: 0 3px 15px #0001;
 }
 
 nav button {
-    background: #eee;
+    background: #f0efff;
+    color: #4f46e5;
+}
+
+nav button:hover {
+    background: #4f46e5;
+    color: white;
 }
 
 
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 
 main {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
-    padding: 25px;
+    padding: 30px;
 }
 
 
-/* CARDS */
+/* =========================
+   CARDS
+========================= */
 
 .profile-card,
 .agent-card,
 .stat-card,
 .dashboard-card,
 .progress-item {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.95);
+
+    padding: 22px;
+
+    border-radius: 18px;
+
     margin: 15px 0;
-    box-shadow: 0 5px 15px #0001;
+
+    box-shadow:
+        0 8px 25px rgba(70, 60, 150, 0.10);
 }
 
 .agent-card {
-    border-left: 5px solid #4f46e5;
+    background:
+        linear-gradient(
+            135deg,
+            #6d35e8,
+            #2864e8
+        );
+
+    color: white;
+
+    border: none;
+
+    box-shadow:
+        0 12px 30px #4f46e555;
 }
 
 
-/* STATS */
+/* =========================
+   STATS
+========================= */
 
 .stats {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
 }
 
 .stat-card {
     text-align: center;
+
+    min-height: 130px;
+
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 15px 30px #4f46e522;
+}
+
+.stat-card h2 {
+    font-size: 30px;
+    margin: 10px 0;
+    color: #242424;
 }
 
 
-/* PRACTICE */
+/* =========================
+   PRACTICE BUTTONS
+========================= */
 
 .practice-buttons {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
 }
 
 .practice-buttons button {
     background: white;
-    padding: 20px;
-    box-shadow: 0 5px 15px #0001;
+
+    padding: 22px;
+
+    box-shadow:
+        0 8px 20px #0001;
+
+    font-weight: bold;
+}
+
+.practice-buttons button:hover {
+    background: #f1efff;
 }
 
 
-/* OPTIONS */
+/* =========================
+   OPTIONS
+========================= */
 
 .option {
     display: block;
+
     width: 100%;
+
     text-align: left;
+
     background: white;
+
     border: 1px solid #ddd;
+
     margin: 10px 0;
+
+    padding: 15px;
+
+    transition: 0.2s;
 }
 
 .option:hover {
-    background: #eef;
+    background: #f0efff;
+    border-color: #6555ee;
 }
 
 .option.correct {
-    background: #b7f7c2;
+    background: #c9f7d5;
+    border-color: #35a854;
 }
 
 .option.wrong {
-    background: #ffbaba;
+    background: #ffd1d1;
+    border-color: #e53935;
 }
 
 
-/* PROGRESS BAR */
+/* =========================
+   PROGRESS BAR
+========================= */
 
 .progress-container {
     width: 100%;
+
     height: 10px;
-    background: #ddd;
-    border-radius: 10px;
+
+    background: #e1e1e8;
+
+    border-radius: 20px;
+
     margin: 15px 0;
 }
 
 #questionProgress {
     height: 100%;
+
     width: 0%;
-    background: #4f46e5;
-    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #753cff,
+            #3264e8
+        );
+
+    border-radius: 20px;
+
+    transition: width 0.4s;
 }
 
 
-/* FEEDBACK */
+/* =========================
+   FEEDBACK
+========================= */
 
 .feedback {
     padding: 15px;
+
     margin: 15px 0;
-    border-radius: 10px;
+
+    border-radius: 12px;
+
+    font-weight: 500;
 }
 
 .feedback.success {
-    background: #d1fae5;
+    background: #d5f8df;
+    color: #16753a;
 }
 
 .feedback.error {
-    background: #fee2e2;
+    background: #ffe0e0;
+    color: #a71919;
 }
 
 
-/* SKILLS */
+/* =========================
+   SKILL ANALYSIS
+========================= */
 
 .skill-row {
     background: white;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 10px;
+
+    padding: 16px;
+
+    margin: 12px 0;
+
+    border-radius: 14px;
+
+    box-shadow: 0 5px 15px #0000000a;
 }
 
 .skill-info {
     display: flex;
+
     justify-content: space-between;
+
+    font-weight: 600;
 }
 
 .skill-bar {
     height: 10px;
-    background: #ddd;
+
+    background: #e5e5eb;
+
     margin-top: 10px;
-    border-radius: 10px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
 }
 
 .skill-fill {
     height: 100%;
-    background: #4f46e5;
-    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7738ed,
+            #2864e8
+        );
+
+    border-radius: 20px;
+
+    transition: width 1s;
 }
 
 
-/* ROADMAP */
+/* =========================
+   ROADMAP
+========================= */
 
 .roadmap-item {
     display: flex;
+
     gap: 15px;
+
     background: white;
-    padding: 15px;
+
+    padding: 17px;
+
     margin: 10px 0;
-    border-radius: 10px;
+
+    border-radius: 14px;
+
+    box-shadow: 0 5px 15px #0000000a;
 }
 
 .roadmap-number {
-    background: #4f46e5;
+    background:
+        linear-gradient(
+            135deg,
+            #753cff,
+            #3264e8
+        );
+
     color: white;
-    min-width: 35px;
-    height: 35px;
+
+    min-width: 38px;
+
+    height: 38px;
+
     border-radius: 50%;
+
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
+    font-weight: bold;
 }
 
 
-/* CHAT */
+/* =========================
+   CHAT
+========================= */
 
 #chatMessages {
     background: white;
+
     padding: 20px;
+
     border-radius: 15px;
+
     min-height: 80px;
+
     margin: 10px 0;
+
+    box-shadow: 0 5px 20px #0001;
 }
 
 .chat-box {
     display: flex;
+
+    gap: 8px;
 }
 
 .chat-box input {
@@ -313,27 +549,45 @@ main {
 }
 
 .chat-box button {
-    background: #4f46e5;
+    background:
+        linear-gradient(
+            135deg,
+            #753cff,
+            #3264e8
+        );
+
     color: white;
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
     header {
         flex-direction: column;
+
         text-align: center;
+
+        gap: 10px;
     }
 
-    .stats,
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
     .practice-buttons {
         grid-template-columns: 1fr;
     }
 
     main {
         padding: 15px;
+    }
+
+    .setup-card {
+        padding: 25px 20px;
     }
 
     }
