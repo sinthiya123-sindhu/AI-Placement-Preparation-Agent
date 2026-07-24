@@ -11,27 +11,8 @@ function submitTextAnswer() {
     let lowerAnswer =
         answer.toLowerCase();
 
-    let words =
-        answer
-            .split(/\s+/)
-            .filter(word => word.length > 0);
 
-
-    // BASIC VALIDATION
-
-    if (words.length < 5) {
-
-        showFeedback(
-            "⚠️ Please write a complete answer with more details.",
-            false
-        );
-
-        return;
-
-    }
-
-
-    // ================= CODING VALIDATION =================
+    // ================= CODING =================
 
     if (currentType === "coding") {
 
@@ -41,11 +22,10 @@ function submitTextAnswer() {
 
         // ================= EVEN OR ODD =================
 
-        if (
-            question.includes("even or odd")
-        ) {
+        if (question.includes("even or odd")) {
 
-            let correctCode = `n = int(input("Enter a number: "))
+            let correctCode =
+`n = int(input("Enter a number: "))
 
 if n % 2 == 0:
     print("Even")
@@ -53,21 +33,33 @@ else:
     print("Odd")`;
 
 
-            let correctPattern =
-                /int\s*\(\s*input\s*\(/.test(lowerAnswer) &&
+            let hasInput =
+                /int\s*\(\s*input\s*\(/i.test(answer);
 
-                /%\s*2\s*==\s*0/.test(lowerAnswer) &&
+            let hasCondition =
+                /%\s*2\s*==\s*0/.test(answer);
 
-                /\bif\b/.test(lowerAnswer) &&
+            let hasIf =
+                /\bif\b/i.test(answer);
 
-                /\belse\b/.test(lowerAnswer) &&
+            let hasElse =
+                /\belse\b/i.test(answer);
 
-                /print\s*\(\s*["']even["']\s*\)/.test(lowerAnswer) &&
+            let hasEven =
+                /print\s*\(\s*["']even["']\s*\)/i.test(answer);
 
-                /print\s*\(\s*["']odd["']\s*\)/.test(lowerAnswer);
+            let hasOdd =
+                /print\s*\(\s*["']odd["']\s*\)/i.test(answer);
 
 
-            if (correctPattern) {
+            if (
+                hasInput &&
+                hasCondition &&
+                hasIf &&
+                hasElse &&
+                hasEven &&
+                hasOdd
+            ) {
 
                 score++;
 
@@ -90,13 +82,7 @@ else:
 
                     <br>
 
-                    💡 The program must:
-                    <br>
-                    1. Get a number from the user
-                    <br>
-                    2. Check whether it is divisible by 2
-                    <br>
-                    3. Print Even or Odd
+                    💡 Check the input, condition, if/else logic, and output.
                     `,
                     false
                 );
@@ -110,9 +96,7 @@ else:
 
         // ================= REVERSE STRING =================
 
-        else if (
-            question.includes("reverse a string")
-        ) {
+        else if (question.includes("reverse a string")) {
 
             let correctCode =
 `text = input("Enter a string: ")
@@ -122,15 +106,11 @@ reverse = text[::-1]
 print(reverse)`;
 
 
-            let correctPattern =
-                /input\s*\(/.test(lowerAnswer) &&
-
-                /\[\s*::\s*-1\s*\]/.test(lowerAnswer) &&
-
-                /print\s*\(/.test(lowerAnswer);
-
-
-            if (correctPattern) {
+            if (
+                /input\s*\(/i.test(answer) &&
+                /\[\s*::\s*-1\s*\]/.test(answer) &&
+                /print\s*\(/i.test(answer)
+            ) {
 
                 score++;
 
@@ -161,11 +141,9 @@ print(reverse)`;
         }
 
 
-        // ================= PRIME NUMBER =================
+        // ================= PRIME =================
 
-        else if (
-            question.includes("prime")
-        ) {
+        else if (question.includes("prime")) {
 
             let correctCode =
 `n = int(input("Enter a number: "))
@@ -181,19 +159,13 @@ else:
     print("Not Prime")`;
 
 
-            let correctPattern =
-                /int\s*\(\s*input\s*\(/.test(lowerAnswer) &&
-
-                /\bfor\b/.test(lowerAnswer) &&
-
-                /\brange\s*\(/.test(lowerAnswer) &&
-
-                /%\s*.*==\s*0/.test(lowerAnswer) &&
-
-                /\bif\b/.test(lowerAnswer);
-
-
-            if (correctPattern) {
+            if (
+                /int\s*\(\s*input\s*\(/i.test(answer) &&
+                /\bfor\b/i.test(answer) &&
+                /range\s*\(/i.test(answer) &&
+                /%\s*.*==\s*0/.test(answer) &&
+                /\bif\b/i.test(answer)
+            ) {
 
                 score++;
 
@@ -226,9 +198,7 @@ else:
 
         // ================= FACTORIAL =================
 
-        else if (
-            question.includes("factorial")
-        ) {
+        else if (question.includes("factorial")) {
 
             let correctCode =
 `n = int(input("Enter a number: "))
@@ -241,19 +211,13 @@ for i in range(1, n + 1):
 print(factorial)`;
 
 
-            let correctPattern =
-                /int\s*\(\s*input\s*\(/.test(lowerAnswer) &&
-
-                /factorial\s*=\s*1/.test(lowerAnswer) &&
-
-                /\bfor\b/.test(lowerAnswer) &&
-
-                /range\s*\(/.test(lowerAnswer) &&
-
-                /print\s*\(/.test(lowerAnswer);
-
-
-            if (correctPattern) {
+            if (
+                /int\s*\(\s*input\s*\(/i.test(answer) &&
+                /factorial\s*=\s*1/i.test(answer) &&
+                /\bfor\b/i.test(answer) &&
+                /range\s*\(/i.test(answer) &&
+                /print\s*\(/i.test(answer)
+            ) {
 
                 score++;
 
@@ -289,7 +253,6 @@ print(factorial)`;
         else {
 
             let codingKeywords = [
-
                 "print",
                 "if",
                 "else",
@@ -300,9 +263,7 @@ print(factorial)`;
                 "input",
                 "int",
                 "range"
-
             ];
-
 
             let foundKeywords =
                 codingKeywords.filter(
@@ -311,25 +272,10 @@ print(factorial)`;
                 );
 
 
-            let hasProgrammingSyntax =
-                lowerAnswer.includes("=") ||
-                lowerAnswer.includes("(") ||
-                lowerAnswer.includes(":");
-
-
-            if (
-                foundKeywords.length < 2 ||
-                !hasProgrammingSyntax
-            ) {
+            if (foundKeywords.length < 2) {
 
                 showFeedback(
-                    `
-                    ❌ This is not a proper Python solution.
-
-                    <br><br>
-
-                    Please write the correct logic and Python code.
-                    `,
+                    "❌ This is not a proper Python solution. Please write correct Python code.",
                     false
                 );
 
@@ -350,14 +296,11 @@ print(factorial)`;
     }
 
 
-    // ================= INTERVIEW VALIDATION =================
+    // ================= INTERVIEW =================
 
-    else if (
-        currentType === "interview"
-    ) {
+    else if (currentType === "interview") {
 
         let keywords = [
-
             "student",
             "education",
             "college",
@@ -374,7 +317,6 @@ print(factorial)`;
             "learn",
             "company",
             "career"
-
         ];
 
 
@@ -385,9 +327,7 @@ print(factorial)`;
             );
 
 
-        if (
-            foundKeywords.length < 2
-        ) {
+        if (foundKeywords.length < 2) {
 
             showFeedback(
                 `
@@ -395,17 +335,7 @@ print(factorial)`;
 
                 <br><br>
 
-                💡 Include your:
-                <br>
-                • Education
-                <br>
-                • Skills
-                <br>
-                • Projects
-                <br>
-                • Strengths
-                <br>
-                • Career goals
+                💡 Include your education, skills, projects, strengths, or career goals.
                 `,
                 false
             );
@@ -425,7 +355,7 @@ print(factorial)`;
     }
 
 
-    // SAVE ONLY CORRECT ANSWERS
+    // ================= SAVE ONLY CORRECT ANSWERS =================
 
     saveProgress();
 
