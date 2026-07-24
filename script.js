@@ -8,8 +8,19 @@ function submitTextAnswer() {
             .value
             .trim();
 
-    let lowerAnswer =
-        answer.toLowerCase();
+
+    // EMPTY ANSWER
+
+    if (answer === "") {
+
+        showFeedback(
+            "❌ Please enter your answer.",
+            false
+        );
+
+        return;
+
+    }
 
 
     // ================= CODING =================
@@ -17,14 +28,22 @@ function submitTextAnswer() {
     if (currentType === "coding") {
 
         let question =
-            codingQuestions[currentQuestion].toLowerCase();
+            codingQuestions[currentQuestion]
+                .toLowerCase();
+
+
+        let correctCode = "";
+
+        let isCorrect = false;
 
 
         // ================= EVEN OR ODD =================
 
-        if (question.includes("even or odd")) {
+        if (
+            question.includes("even or odd")
+        ) {
 
-            let correctCode =
+            correctCode =
 `n = int(input("Enter a number: "))
 
 if n % 2 == 0:
@@ -33,72 +52,89 @@ else:
     print("Odd")`;
 
 
-            let hasInput =
-                /int\s*\(\s*input\s*\(/i.test(answer);
+            isCorrect =
 
-            let hasCondition =
-                /%\s*2\s*==\s*0/.test(answer);
+                /n\s*=\s*int\s*\(\s*input\s*\(/i
+                    .test(answer)
 
-            let hasIf =
-                /\bif\b/i.test(answer);
+                &&
 
-            let hasElse =
-                /\belse\b/i.test(answer);
+                /if\s+n\s*%\s*2\s*==\s*0\s*:/i
+                    .test(answer)
 
-            let hasEven =
-                /print\s*\(\s*["']even["']\s*\)/i.test(answer);
+                &&
 
-            let hasOdd =
-                /print\s*\(\s*["']odd["']\s*\)/i.test(answer);
+                /print\s*\(\s*["']even["']\s*\)/i
+                    .test(answer)
+
+                &&
+
+                /else\s*:/i
+                    .test(answer)
+
+                &&
+
+                /print\s*\(\s*["']odd["']\s*\)/i
+                    .test(answer);
+
+        }
 
 
-            if (
-                hasInput &&
-                hasCondition &&
-                hasIf &&
-                hasElse &&
-                hasEven &&
-                hasOdd
-            ) {
+        // ================= LARGEST NUMBER =================
 
-                score++;
+        else if (
+            question.includes("largest number")
+            &&
+            !question.includes("in a list")
+        ) {
 
-                showFeedback(
-                    "✅ Correct! Your Python logic is correct. Excellent work! 🎉",
-                    true
-                );
+            correctCode =
+`a = int(input("Enter first number: "))
+b = int(input("Enter second number: "))
+c = int(input("Enter third number: "))
 
-            } else {
+if a >= b and a >= c:
+    print(a)
+elif b >= a and b >= c:
+    print(b)
+else:
+    print(c)`;
 
-                showFeedback(
-                    `
-                    ❌ Your code is incorrect.
 
-                    <br><br>
+            isCorrect =
 
-                    <b>✅ Correct Python Code:</b>
+                /input\s*\(/i.test(answer)
 
-                    <pre>${correctCode}</pre>
+                &&
 
-                    <br>
+                /\bif\b/i.test(answer)
 
-                    💡 Check the input, condition, if/else logic, and output.
-                    `,
-                    false
-                );
+                &&
 
-                return;
+                /\belif\b/i.test(answer)
 
-            }
+                &&
+
+                /\belse\b/i.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer)
+
+                &&
+
+                /[<>]=/.test(answer);
 
         }
 
 
         // ================= REVERSE STRING =================
 
-        else if (question.includes("reverse a string")) {
+        else if (
+            question.includes("reverse a string")
+        ) {
 
-            let correctCode =
+            correctCode =
 `text = input("Enter a string: ")
 
 reverse = text[::-1]
@@ -106,46 +142,29 @@ reverse = text[::-1]
 print(reverse)`;
 
 
-            if (
-                /input\s*\(/i.test(answer) &&
-                /\[\s*::\s*-1\s*\]/.test(answer) &&
-                /print\s*\(/i.test(answer)
-            ) {
+            isCorrect =
 
-                score++;
+                /input\s*\(/i.test(answer)
 
-                showFeedback(
-                    "✅ Correct! Your string reversal logic is correct. 🎉",
-                    true
-                );
+                &&
 
-            } else {
+                /[a-zA-Z_]\w*\s*=\s*[a-zA-Z_]\w*\[\s*::\s*-1\s*\]/i
+                    .test(answer)
 
-                showFeedback(
-                    `
-                    ❌ Your code is incorrect.
+                &&
 
-                    <br><br>
-
-                    <b>✅ Correct Python Code:</b>
-
-                    <pre>${correctCode}</pre>
-                    `,
-                    false
-                );
-
-                return;
-
-            }
+                /print\s*\(/i.test(answer);
 
         }
 
 
-        // ================= PRIME =================
+        // ================= PRIME NUMBER =================
 
-        else if (question.includes("prime")) {
+        else if (
+            question.includes("prime")
+        ) {
 
-            let correctCode =
+            correctCode =
 `n = int(input("Enter a number: "))
 
 if n > 1:
@@ -159,48 +178,41 @@ else:
     print("Not Prime")`;
 
 
-            if (
-                /int\s*\(\s*input\s*\(/i.test(answer) &&
-                /\bfor\b/i.test(answer) &&
-                /range\s*\(/i.test(answer) &&
-                /%\s*.*==\s*0/.test(answer) &&
-                /\bif\b/i.test(answer)
-            ) {
+            isCorrect =
 
-                score++;
+                /int\s*\(\s*input\s*\(/i
+                    .test(answer)
 
-                showFeedback(
-                    "✅ Correct! Your prime number logic is correct. 🎉",
-                    true
-                );
+                &&
 
-            } else {
+                /\bif\s+n\s*>\s*1\s*:/i
+                    .test(answer)
 
-                showFeedback(
-                    `
-                    ❌ Your code is incorrect.
+                &&
 
-                    <br><br>
+                /\bfor\b.*\brange\s*\(/is
+                    .test(answer)
 
-                    <b>✅ Correct Python Code:</b>
+                &&
 
-                    <pre>${correctCode}</pre>
-                    `,
-                    false
-                );
+                /%\s*i\s*==\s*0/i
+                    .test(answer)
 
-                return;
+                &&
 
-            }
+                /\belse\s*:/i
+                    .test(answer);
 
         }
 
 
         // ================= FACTORIAL =================
 
-        else if (question.includes("factorial")) {
+        else if (
+            question.includes("factorial")
+        ) {
 
-            let correctCode =
+            correctCode =
 `n = int(input("Enter a number: "))
 
 factorial = 1
@@ -211,85 +223,284 @@ for i in range(1, n + 1):
 print(factorial)`;
 
 
-            if (
-                /int\s*\(\s*input\s*\(/i.test(answer) &&
-                /factorial\s*=\s*1/i.test(answer) &&
-                /\bfor\b/i.test(answer) &&
-                /range\s*\(/i.test(answer) &&
-                /print\s*\(/i.test(answer)
-            ) {
+            isCorrect =
 
-                score++;
+                /int\s*\(\s*input\s*\(/i
+                    .test(answer)
 
-                showFeedback(
-                    "✅ Correct! Your factorial logic is correct. 🎉",
-                    true
-                );
+                &&
 
-            } else {
+                /factorial\s*=\s*1/i
+                    .test(answer)
 
-                showFeedback(
-                    `
-                    ❌ Your code is incorrect.
+                &&
 
-                    <br><br>
+                /for\s+i\s+in\s+range\s*\(/i
+                    .test(answer)
 
-                    <b>✅ Correct Python Code:</b>
+                &&
 
-                    <pre>${correctCode}</pre>
-                    `,
-                    false
-                );
+                /factorial\s*=\s*factorial\s*\*\s*i/i
+                    .test(answer)
 
-                return;
+                &&
 
-            }
+                /print\s*\(/i
+                    .test(answer);
 
         }
 
 
-        // ================= OTHER CODING QUESTIONS =================
+        // ================= SUM OF LIST =================
 
-        else {
+        else if (
+            question.includes("sum of a list")
+        ) {
 
-            let codingKeywords = [
-                "print",
-                "if",
-                "else",
-                "for",
-                "while",
-                "def",
-                "return",
-                "input",
-                "int",
-                "range"
-            ];
+            correctCode =
+`numbers = [1, 2, 3, 4, 5]
 
-            let foundKeywords =
-                codingKeywords.filter(
-                    keyword =>
-                        lowerAnswer.includes(keyword)
-                );
+total = 0
+
+for number in numbers:
+    total = total + number
+
+print(total)`;
 
 
-            if (foundKeywords.length < 2) {
+            isCorrect =
 
-                showFeedback(
-                    "❌ This is not a proper Python solution. Please write correct Python code.",
-                    false
-                );
+                /\[\s*.*\s*\]/s.test(answer)
 
-                return;
+                &&
 
-            }
+                /\bfor\b/i.test(answer)
 
+                &&
+
+                /total\s*=\s*0/i.test(answer)
+
+                &&
+
+                /total\s*=\s*total\s*\+/i.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer);
+
+        }
+
+
+        // ================= COUNT VOWELS =================
+
+        else if (
+            question.includes("count vowels")
+        ) {
+
+            correctCode =
+`text = input("Enter a string: ")
+
+count = 0
+
+for char in text:
+    if char in "aeiou":
+        count += 1
+
+print(count)`;
+
+
+            isCorrect =
+
+                /input\s*\(/i.test(answer)
+
+                &&
+
+                /count\s*=\s*0/i.test(answer)
+
+                &&
+
+                /\bfor\b/i.test(answer)
+
+                &&
+
+                /\bif\b/i.test(answer)
+
+                &&
+
+                /aeiou/i.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer);
+
+        }
+
+
+        // ================= PALINDROME =================
+
+        else if (
+            question.includes("palindrome")
+        ) {
+
+            correctCode =
+`text = input("Enter a string: ")
+
+if text == text[::-1]:
+    print("Palindrome")
+else:
+    print("Not Palindrome")`;
+
+
+            isCorrect =
+
+                /input\s*\(/i.test(answer)
+
+                &&
+
+                /[::-1]/.test(answer)
+
+                &&
+
+                /==/.test(answer)
+
+                &&
+
+                /\bif\b/i.test(answer)
+
+                &&
+
+                /\belse\b/i.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer);
+
+        }
+
+
+        // ================= LARGEST IN LIST =================
+
+        else if (
+            question.includes("largest number in a list")
+        ) {
+
+            correctCode =
+`numbers = [10, 25, 5, 40, 15]
+
+largest = numbers[0]
+
+for number in numbers:
+    if number > largest:
+        largest = number
+
+print(largest)`;
+
+
+            isCorrect =
+
+                /\[\s*.*\s*\]/s.test(answer)
+
+                &&
+
+                /largest\s*=/i.test(answer)
+
+                &&
+
+                /\bfor\b/i.test(answer)
+
+                &&
+
+                /\bif\b/i.test(answer)
+
+                &&
+
+                />/.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer);
+
+        }
+
+
+        // ================= FIBONACCI =================
+
+        else if (
+            question.includes("fibonacci")
+        ) {
+
+            correctCode =
+`n = int(input("Enter number of terms: "))
+
+a = 0
+b = 1
+
+for i in range(n):
+    print(a)
+    a, b = b, a + b`;
+
+
+            isCorrect =
+
+                /int\s*\(\s*input\s*\(/i
+                    .test(answer)
+
+                &&
+
+                /a\s*=\s*0/i.test(answer)
+
+                &&
+
+                /b\s*=\s*1/i.test(answer)
+
+                &&
+
+                /\bfor\b/i.test(answer)
+
+                &&
+
+                /range\s*\(/i.test(answer)
+
+                &&
+
+                /print\s*\(/i.test(answer);
+
+        }
+
+
+        // ================= RESULT =================
+
+        if (
+            isCorrect
+        ) {
 
             score++;
 
             showFeedback(
-                "✅ Good! Your answer contains programming logic. 🎉",
+                "✅ Correct! Your Python code is correct. Excellent work! 🎉",
                 true
             );
+
+        } else {
+
+            showFeedback(
+                `
+                ❌ Your code is incorrect.
+
+                <br><br>
+
+                <b>✅ Correct Python Code:</b>
+
+                <pre>${correctCode}</pre>
+
+                <br>
+
+                💡 Please compare your logic with the correct solution and try again.
+                `,
+                false
+            );
+
+            return;
 
         }
 
@@ -298,9 +509,38 @@ print(factorial)`;
 
     // ================= INTERVIEW =================
 
-    else if (currentType === "interview") {
+    else if (
+        currentType === "interview"
+    ) {
+
+        let lowerAnswer =
+            answer.toLowerCase();
+
+
+        let words =
+            answer
+                .split(/\s+/)
+                .filter(
+                    word => word.length > 0
+                );
+
+
+        if (
+            words.length < 5
+        ) {
+
+            showFeedback(
+                "❌ Please provide a complete interview answer with more details.",
+                false
+            );
+
+            return;
+
+        }
+
 
         let keywords = [
+
             "student",
             "education",
             "college",
@@ -317,6 +557,7 @@ print(factorial)`;
             "learn",
             "company",
             "career"
+
         ];
 
 
@@ -327,15 +568,27 @@ print(factorial)`;
             );
 
 
-        if (foundKeywords.length < 2) {
+        if (
+            foundKeywords.length < 2
+        ) {
 
             showFeedback(
                 `
-                ❌ Please provide more details.
+                ❌ Your answer needs more relevant details.
 
                 <br><br>
 
-                💡 Include your education, skills, projects, strengths, or career goals.
+                💡 Include:
+                <br>
+                • Education
+                <br>
+                • Skills
+                <br>
+                • Projects
+                <br>
+                • Strengths
+                <br>
+                • Career goals
                 `,
                 false
             );
@@ -348,14 +601,14 @@ print(factorial)`;
         score++;
 
         showFeedback(
-            "✅ Good answer! Your response contains relevant details. 🎉",
+            "✅ Good interview answer! Your response contains relevant details. 🎉",
             true
         );
 
     }
 
 
-    // ================= SAVE ONLY CORRECT ANSWERS =================
+    // ================= SAVE CORRECT ANSWER =================
 
     saveProgress();
 
@@ -365,4 +618,4 @@ print(factorial)`;
         .classList
         .remove("hidden");
 
-                }
+    }
